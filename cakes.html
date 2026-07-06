@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Madam Ekler — Авторские торты и десерты на заказ</title>
+    <style>
+        /* Общие стили и переменные */
+        :root {
+            --primary-color: #d4a373; /* Благородный золотисто-бежевый */
+            --secondary-color: #fcf8f2; /* Премиальный кремовый фон */
+            --dark-color: #2b1f1d; /* Глубокий темный оттенок */
+            --white: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent; /* Убирает синюю рамку при клике на смартфонах */
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden; /* Защита от горизонтального скролла на мобильных */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Шапка сайта (Header) */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.02);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-contact {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 10px 24px;
+            border-radius: 0px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .btn-contact:hover {
+            background-color: var(--dark-color);
+        }
+
+        /* Главный баннер (Hero Section) */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.35)), 
+                        url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding: 120px 0 60px 0;
+        }
+
+        .hero-content {
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(28px, 5vw, 56px); /* Автоматический размер шрифта под любой экран */
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: clamp(15px, 2.5vw, 20px);
+            margin-bottom: 35px;
+            color: var(--dark-color);
+            opacity: 0.85;
+            padding: 0 10px;
+        }
+
+        /* Общие стили для секций */
+        .section {
+            padding: clamp(60px, 8vw, 120px) 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(24px, 4vw, 32px);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: clamp(40px, 6vw, 60px);
+            position: relative;
+            padding-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        /* Адаптивная сетка каталога */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* Преимущества */
+        .features {
+            background-color: var(--secondary-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: clamp(30px, 5vw, 50px) clamp(20px, 4vw, 40px);
+            display: flex;
+            flex-direction: column; /* На мобильных иконка сверху смотрится лучше */
+            gap: 20px;
+            align-items: flex-start;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        @media (min-width: 576px) {
+            .feature-card {
+                flex-direction: row; /* На экранах побольше — иконка сбоку */
+            }
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-left-color: var(--primary-color);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+        }
+
+        .feature-svg-icon {
+            width: 44px;
+            height: 44px;
+            fill: none;
+            stroke: var(--primary-color);
+            stroke-width: 1.5;
+            flex-shrink: 0;
+        }
+
+        .feature-info h3 {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .feature-info p {
+            color: #5c4c4a;
+            font-size: 14.5px;
+            line-height: 1.6;
+        }
+
+        /* Каталог (Карточки) */
+        .card {
+            background-color: var(--white);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+        }
+
+        .card-img {
+            height: clamp(240px, 30vh, 320px);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-body {
+            padding: 25px 5px 15px 5px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 19px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card-text {
+            color: #666;
+            font-size: 14.5px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--dark-color);
+            white-space: nowrap;
+        }
+
+        .btn-order {
+            background-color: transparent;
+            border: 1px solid var(--dark-color);
+            color: var(--dark-color);
+            padding: 8px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .btn-order:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Подвал */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            padding: 50px 0;
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        footer p {
+            margin-bottom: 8px;
+            opacity: 0.6;
+        }
+
+        /* Адаптивность для мобильных телефонов */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none; /* Скрываем текстовые ссылки меню на смартфонах ради свободного места */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 12px 0;
+            }
+            .logo {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+            .btn-contact {
+                padding: 8px 16px;
+                font-size: 11px;
+            }
+            .card-body {
+                padding: 20px 0 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <div class="logo">Madam <span>Ekler</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#features">Преимущества</a></li>
+                <li><a href="#catalog">Каталог</a></li>
+            </ul>
+            <a href="https://wa.me/your_number" class="btn-contact" target="_blank">Написать</a>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1>Искусство в каждом кусочке</h1>
+            <p>Натуральные ингредиенты, авторские рецепты и безупречный вкус от Madam Ekler</p>
+            <a href="#catalog" class="btn-contact" style="padding: 14px 35px;">Смотреть каталог</a>
+        </div>
+    </section>
+
+    <section id="features" class="section features">
+        <div class="container">
+            <h2 class="section-title">Стандарты качества</h2>
+            <div class="features-grid">
+                
+                <div class="feature-card">
+                    <svg class="feature-svg-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="7"></circle>
+                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                    </svg>
+                    <div class="feature-info">
+                        <h3>Исключительно натурально</h3>
+                        <p>Мы принципиально не используем растительные сливки, готовые смеси и искусственные консерванты. В основе наших десертов — премиальный бельгийский шоколад, натуральные фермерские продукты и отборные ягоды.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <svg class="feature-svg-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19"></path>
+                        <path d="M6 14C6.55228 14 7 13.5523 7 13C7 12.4477 6.55228 12 6 12C5.44772 12 5 12.4477 5 13C5 13.5523 5.44772 14 6 14Z" fill="currentColor"></path>
+                        <path d="M9 9C9.55228 9 10 8.55228 10 8C10 7.44772 9.55228 7 9 7C8.44772 7 8 7.44772 8 8C8 8.55228 8.44772 9 9 9Z" fill="currentColor"></path>
+                        <path d="M15 9C15.5523 9 16 8.55228 16 8C16 7.44772 15.5523 7 15 7C14.4477 7 14 7.44772 14 8C14 8.55228 14.4477 9 15 9Z" fill="currentColor"></path>
+                        <path d="M18 14C18.5523 14 19 13.5523 19 13C19 12.4477 18.5523 12 18 12C17.4477 12 17 12.4477 17 13C17 13.5523 17.4477 14 18 14Z" fill="currentColor"></path>
+                    </svg>
+                    <div class="feature-info">
+                        <h3>Авторский дизайн и подход</h3>
+                        <p>Каждое изделие создается вручную под контролем шеф-кондитера. Мы не работаем по шаблонам и адаптируем визуальное оформление и вкусовые нюансы десерта под формат и стилистику вашего события.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="catalog" class="section">
+        <div class="container">
+            <h2 class="section-title">Эксклюзивная коллекция</h2>
+            <div class="catalog-grid">
+                
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-body">
+                        <h3 class="card-title">Торт «Ягодный взрыв»</h3>
+                        <p class="card-text">Нежный бисквит, воздушный крем-чиз и сочная прослойка из спелой клубники и малины.</p>
+                        <div class="card-footer">
+                            <span class="price">от 2 200 ₽ / кг</span>
+                            <button class="btn-order">Заказать</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-body">
+                        <h3 class="card-title">Шоколадный трюфель</h3>
+                        <p class="card-text">Насыщенные премиальные коржи, нежный мусс из темного шоколада и зеркальный гляссаж.</p>
+                        <div class="card-footer">
+                            <span class="price">от 2 400 ₽ / кг</span>
+                            <button class="btn-order">Заказать</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="card-body">
+                        <h3 class="card-title">Набор капкейков</h3>
+                        <p class="card-text">Ассорти из 6 нежнейших пирожных с ягодными начинками и нарядной шапочкой из крема.</p>
+                        <div class="card-footer">
+                            <span class="price">1 500 ₽ / 6 шт</span>
+                            <button class="btn-order">Заказать</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Madam Ekler. Все права защищены.</p>
+            <p>ул. Кондитерская, д. 10</p>
+        </div>
+    </footer>
+
+</body>
+</html>
